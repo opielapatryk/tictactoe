@@ -66,7 +66,26 @@ def winner(board):
     """
     Returns the winner of the game, if there is one.
     """
-    raise NotImplementedError
+    winner = None
+    for row in board:
+        if all(cell == X for cell in row):
+            winner = X
+        elif all(cell == O for cell in row):
+            winner = O
+        
+    for col in range(3):
+        if all(board[row][col] == X for row in range(3)):
+            winner = X
+        elif all(board[row][col] == O for row in range(3)):
+            winner = O
+        
+    if all(board[i][i] == X for i in range(3)) or all(board[i][2 - i] == X for i in range(3)):
+        winner = X
+    elif all(board[i][i] == O for i in range(3)) or all(board[i][2 - i] == O for i in range(3)):
+        winner = O
+
+    return winner
+    
 
 
 def terminal(board):
