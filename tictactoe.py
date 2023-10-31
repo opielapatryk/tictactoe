@@ -2,7 +2,7 @@
 Tic Tac Toe Player
 """
 
-import math
+import math, copy
 
 X = "X"
 O = "O"
@@ -37,7 +37,7 @@ def actions(board):
     """
     Returns set of all possible actions (i, j) available on the board.
     """
-    
+
     actions = {}
     for i in range(3):
         for j in range(3):
@@ -51,7 +51,15 @@ def result(board, action):
     """
     Returns the board that results from making move (i, j) on the board.
     """
-    raise NotImplementedError
+    i = action[0]
+    j = action[1]
+    if board[i][j] == EMPTY:
+        newBoardState = copy.deepcopy(board)
+        newBoardState[i][j] = player(board)
+        return newBoardState
+    else:
+        raise ValueError("Action not available")
+    
 
 
 def winner(board):
