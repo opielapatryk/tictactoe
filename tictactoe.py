@@ -38,7 +38,7 @@ def actions(board):
     Returns set of all possible actions (i, j) available on the board.
     """
 
-    actions = {}
+    actions = set()
     for i in range(3):
         for j in range(3):
             if board[i][j] == EMPTY:
@@ -114,5 +114,23 @@ def utility(board):
 def minimax(board):
     """
     Returns the optimal action for the current player on the board.
+
+    The minimax function should take a board as input, and return the optimal move for the player to move on that board.
+
+    - The move returned should be the optimal action (i, j) that is one of the allowable actions on the board. If multiple moves are equally optimal, any of those moves is acceptable.
+    - If the board is a terminal board, the minimax function should return None.
+
+    For all functions that accept a board as input, you may assume that it is a valid board (namely, that it is a list that contains three rows, each with three values of either X, O, or EMPTY). You should not modify the function declarations (the order or number of arguments to each function) provided.
+
+    Once all functions are implemented correctly, you should be able to run python runner.py and play against your AI. And, since Tic-Tac-Toe is a tie given optimal play by both sides, you should never be able to beat the AI (though if you don’t play optimally as well, it may beat you!)
+
+    Alpha-beta pruning is optional, but may make your AI run more efficiently!
+
     """
-    raise NotImplementedError
+    # returned move should be the optimal action (i, j)
+    # if the board is a terminal board the minimax function should return None
+    if terminal(board):
+        return None
+    
+    availableActions = actions(board)
+    return availableActions[0]
