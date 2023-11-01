@@ -28,9 +28,9 @@ def player(board):
         countNone += row.count(EMPTY)
 
     if countNone % 2 == 0:
-        return X
-    else:
         return O
+    else:
+        return X
 
 
 def actions(board):
@@ -126,11 +126,75 @@ def minimax(board):
 
     Alpha-beta pruning is optional, but may make your AI run more efficiently!
 
-    """
-    # returned move should be the optimal action (i, j)
-    # if the board is a terminal board the minimax function should return None
-    if terminal(board):
-        return None
+    X win = 1 max player max(x) aims to max score
+    None = 0
+    O win = -1 min player min(o) aims to min score
+
+    state = board 
+
+    initial state = empty board
+
+    player(board) = return which player will move in state board
+
+    actions(board) = possible moves on board
+
+    results(board,actions) = result after move a on state board
+
+    terminal(board) = check if board is terminal (goal test)
+
+    utility(board) = gives num value for terminal state / 1 if x win / 0 if none / -1 if O
+
+    1. player(board) = X (board is empty so X starts)
+    2. actions(board) = set((i,j),(i,j)....) # gives set of all possible moves
+    3. results(board,actions) = newboard # return deepcopy of new updated board
+    4. terminal(board) = True/ False # returns True if game is over or false if not 
+    5. utility(board) = 1 # because X won the game... or -1 if O won the game or 0 if tie
+
+    If AI will be player X then will be aiming for 1
+    Minimax will look for every available move and create new boards... 
+    Then will wear his opponent shoes and look what would the opponent do when O is aiming for -1
+    Will do that until reach -1, 0 or 1 
     
-    availableActions = actions(board)
-    return availableActions[0]
+
+    """
+    # if terminal(board):
+    #     return None
+    # availableActions = actions(board)
+    
+    # return availableActions.pop()
+    
+    # THIS SHOULD RETURN (I,J) NOT V !!!
+    move = () # use somehow result to get move from end to beggining 
+    # jezeli ostatni board mial value 0 to kazdy poprzedni tez musi miec value 0 
+    # kazdy ruch rozwazamy osobno, krok po kroku stan po stanie
+
+    if player(board) == X: # prawie zawsze zwroci 0 czyli remis  
+        print(f'Player == X, maxValue=="{maxValue(board)}"') 
+        return maxValue(board)
+    elif player(board) == O:
+        print(f'Player == O, minValue=="{minValue(board)}"')
+        return minValue(board)
+    
+    return move 
+    
+def maxValue(board): 
+    v = float('-inf')
+    if terminal(board):
+        return utility(board) # this will be returned in the end 
+    for action in actions(board):
+        v = max(v,minValue(result(board,action)))
+    return v
+
+def minValue(board):
+    v = float('inf')
+    if terminal(board):
+        return utility(board)
+    for action in actions(board):
+        v = min(v,maxValue(result(board,action)))
+    return v
+
+# i do not want to  reverse from last board state to current board state
+# instead of this we want to set all of the previouse moves values equal to value of last board state
+######## try to draw this... #######
+# then we want to return this one action and change board state
+
