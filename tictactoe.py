@@ -157,6 +157,29 @@ def minimax(board):
     
 
     """
+
+    # bestMove = None
+    actionList = []
+
+    def maxValue(board): 
+        v = float('-inf')
+        if terminal(board):
+            return utility(board) # this will be returned in the end 
+        for action in actions(board):
+            # bestMove = action
+            actionList.append(action)
+            v = max(v,minValue(result(board,action)))
+        return v
+
+    def minValue(board):
+        v = float('inf')
+        if terminal(board):
+            return utility(board)
+        for action in actions(board):
+            # bestMove = action
+            actionList.append(action)
+            v = min(v,maxValue(result(board,action)))
+        return v
     # if terminal(board):
     #     return None
     # availableActions = actions(board)
@@ -164,37 +187,23 @@ def minimax(board):
     # return availableActions.pop()
     
     # THIS SHOULD RETURN (I,J) NOT V !!!
-    move = () # use somehow result to get move from end to beggining 
+    
+    
+
+    # value = None
+    # move = () # use somehow result to get move from end to beggining 
     # jezeli ostatni board mial value 0 to kazdy poprzedni tez musi miec value 0 
     # kazdy ruch rozwazamy osobno, krok po kroku stan po stanie
 
-    if player(board) == X: # prawie zawsze zwroci 0 czyli remis  
-        print(f'Player == X, maxValue=="{maxValue(board)}"') 
-        return maxValue(board)
+    if player(board) == X: # prawie zawsze zwroci 0 czyli remis 
+        maxValue(board)
     elif player(board) == O:
-        print(f'Player == O, minValue=="{minValue(board)}"')
-        return minValue(board)
+        minValue(board)
+
+
+    return actionList[-1]
+    # while value != goalValue:
+
     
-    return move 
+    # return move 
     
-def maxValue(board): 
-    v = float('-inf')
-    if terminal(board):
-        return utility(board) # this will be returned in the end 
-    for action in actions(board):
-        v = max(v,minValue(result(board,action)))
-    return v
-
-def minValue(board):
-    v = float('inf')
-    if terminal(board):
-        return utility(board)
-    for action in actions(board):
-        v = min(v,maxValue(result(board,action)))
-    return v
-
-# i do not want to  reverse from last board state to current board state
-# instead of this we want to set all of the previouse moves values equal to value of last board state
-######## try to draw this... #######
-# then we want to return this one action and change board state
-
