@@ -150,60 +150,37 @@ def minimax(board):
     4. terminal(board) = True/ False # returns True if game is over or false if not 
     5. utility(board) = 1 # because X won the game... or -1 if O won the game or 0 if tie
 
-    If AI will be player X then will be aiming for 1
-    Minimax will look for every available move and create new boards... 
-    Then will wear his opponent shoes and look what would the opponent do when O is aiming for -1
-    Will do that until reach -1, 0 or 1 
-    
-
     """
 
-    # bestMove = None
-    actionList = []
-
-    def maxValue(board): 
-        v = float('-inf')
-        if terminal(board):
-            return utility(board) # this will be returned in the end 
+    if player(board) == X: # aim for 1 
+        bestScore = float('-inf')
         for action in actions(board):
-            # bestMove = action
-            actionList.append(action)
-            v = max(v,minValue(result(board,action)))
-        return v
-
-    def minValue(board):
-        v = float('inf')
-        if terminal(board):
-            return utility(board)
+            newBestScore = minValue(result(board,action))
+            if newBestScore > bestScore:
+                bestScore = newBestScore
+                bestMove = action
+    elif player(board) == O: # aim for -1
+        bestScore = float('inf')
         for action in actions(board):
-            # bestMove = action
-            actionList.append(action)
-            v = min(v,maxValue(result(board,action)))
-        return v
-    # if terminal(board):
-    #     return None
-    # availableActions = actions(board)
-    
-    # return availableActions.pop()
-    
-    # THIS SHOULD RETURN (I,J) NOT V !!!
-    
-    
+            newBestScore = maxValue(result(board,action))
+            if newBestScore < bestScore:
+                bestScore = newBestScore
+                bestMove = action
 
-    # value = None
-    # move = () # use somehow result to get move from end to beggining 
-    # jezeli ostatni board mial value 0 to kazdy poprzedni tez musi miec value 0 
-    # kazdy ruch rozwazamy osobno, krok po kroku stan po stanie
+    return bestMove
 
-    if player(board) == X: # prawie zawsze zwroci 0 czyli remis 
-        maxValue(board)
-    elif player(board) == O:
-        minValue(board)
+def maxValue(board): 
+    v = float('-inf')
+    if terminal(board):
+        return utility(board) 
+    for action in actions(board):
+        v = max(v,minValue(result(board,action)))
+    return v
 
-
-    return actionList[-1]
-    # while value != goalValue:
-
-    
-    # return move 
-    
+def minValue(board):
+    v = float('inf')
+    if terminal(board):
+        return utility(board)
+    for action in actions(board):
+        v = min(v,maxValue(result(board,action)))
+    return v
