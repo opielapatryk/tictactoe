@@ -155,7 +155,7 @@ def minimax(board):
     if player(board) == X: # aim for 1 
         bestScore = float('-inf')
         for action in actions(board):
-            newBestScore = minValue(result(board,action))
+            newBestScore = minValue(result(board,action)) # after we make move, its time for our opponent.. that's why we call minValue(result(board,action)) instead of maxValue func. 
             if newBestScore > bestScore:
                 bestScore = newBestScore
                 bestMove = action
